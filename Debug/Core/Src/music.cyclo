@@ -1,0 +1,9 @@
+../Core/Src/music.c:48:13:Music_StartNote	1
+../Core/Src/music.c:57:13:Music_SilenceOutput	1
+../Core/Src/music.c:64:13:Music_SetTone	4
+../Core/Src/music.c:93:6:Music_Init	4
+../Core/Src/music.c:117:9:Music_IsPlaying	1
+../Core/Src/music.c:122:6:Music_Stop	1
+../Core/Src/music.c:132:6:Music_Update	4
+../Core/Src/music.c:154:6:Music_PlaySong	3
+../Core/Src/music.c:168:6:Music_PlayJiNiTaiMei	1
