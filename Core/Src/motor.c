@@ -7,6 +7,8 @@
 
 #include "motor.h"
 
+#define speed_stop_step 2
+
 void Motor_Init(void)
 {
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
@@ -111,6 +113,8 @@ void Motor_FastStop(uint8_t motor_id)
 
 void Car_Forward(void)
 {
+  Motor_SetSpeed(MOTOR1, speed_L_init);
+  Motor_SetSpeed(MOTOR2, speed_R_init);
   Motor_Forward(MOTOR1);
   Motor_Forward(MOTOR2);
 }
@@ -123,8 +127,30 @@ void Car_Reverse(void)
 
 void Car_SlowStop(void)
 {
-  Motor_SlowStop(MOTOR1);
-  Motor_SlowStop(MOTOR2);
+  uint32_t speed_left = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_1);
+  uint32_t speed_right = __HAL_TIM_GET_COMPARE(&htim2, TIM_CHANNEL_2);
+
+  if (speed_left > speed_stop_step)
+  {
+    Motor_Forward(MOTOR1);
+    Motor_SetSpeed(MOTOR1, speed_left - speed_stop_step);
+  }
+  else
+  {
+    Motor_SetSpeed(MOTOR1, 0);
+    Motor_SlowStop(MOTOR1);
+  }
+
+  if (speed_right > speed_stop_step)
+  {
+    Motor_Forward(MOTOR2);
+    Motor_SetSpeed(MOTOR2, speed_right - speed_stop_step);
+  }
+  else
+  {
+    Motor_SetSpeed(MOTOR2, 0);
+    Motor_SlowStop(MOTOR2);
+  }
 }
 
 void Car_FastStop(void)
