@@ -118,6 +118,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM1_Init();
   MX_TIM16_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   OLED_Init();
@@ -156,30 +157,6 @@ int main(void)
 	  HAL_Delay(20);
 
 	  {
-		  float currentDistance = distance;
-
-		  if (currentDistance >= 1.0f && currentDistance < 10.0f)
-		  {
-			  if (below10cmStartMs == 0)
-			  {
-				  below10cmStartMs = HAL_GetTick();
-			  }
-			  else if (musicTriggered == 0 && Music_IsPlaying() == 0
-					  && (HAL_GetTick() - below10cmStartMs >= 1000))
-			  {
-				  musicTriggered = 1;
-				  Music_PlayJiNiTaiMei();			  }
-		  }
-		  else
-		  {
-			  if (Music_IsPlaying() != 0)
-			  {
-				  Music_Stop();
-			  }
-			  below10cmStartMs = 0;
-			  musicTriggered = 0;
-		  }
-
 		  OLED_NewFrame();
 		  sprintf(message, "距离: %.2fcm", currentDistance);
 		  OLED_PrintString(0, 0, message, &font16x16, OLED_COLOR_NORMAL);

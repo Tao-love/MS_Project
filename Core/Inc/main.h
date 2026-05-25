@@ -57,10 +57,24 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ENA_Pin GPIO_PIN_0
+#define ENA_GPIO_Port GPIOA
+#define ENB_Pin GPIO_PIN_1
+#define ENB_GPIO_Port GPIOA
+#define alarm_Pin GPIO_PIN_6
+#define alarm_GPIO_Port GPIOA
+#define IN1_Pin GPIO_PIN_0
+#define IN1_GPIO_Port GPIOB
+#define IN2_Pin GPIO_PIN_1
+#define IN2_GPIO_Port GPIOB
 #define Echo_Pin GPIO_PIN_8
 #define Echo_GPIO_Port GPIOA
 #define Trig_Pin GPIO_PIN_11
 #define Trig_GPIO_Port GPIOA
+#define IN3_Pin GPIO_PIN_3
+#define IN3_GPIO_Port GPIOB
+#define IN4_Pin GPIO_PIN_4
+#define IN4_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
