@@ -25,7 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include "music.h"
+#include "motor.h"
+#include "buzzer.h"
 #include "oled.h"
 #include "font.h"
 
@@ -36,9 +37,6 @@
 volatile uint32_t upedge = 0;
 volatile uint32_t downedge = 0;
 volatile float distance = 0.0f;
-
-static uint32_t below10cmStartMs = 0;
-static uint8_t musicTriggered = 0;
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 	  {
@@ -117,15 +115,15 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_TIM1_Init();
-  MX_TIM16_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   OLED_Init();
+  Motor_Init();
+  Buzzer_Init();
   HAL_TIM_Base_Start(&htim1);
   HAL_TIM_IC_Start(&htim1,TIM_CHANNEL_1);
   HAL_TIM_IC_Start_IT(&htim1,TIM_CHANNEL_2);
-  Music_Init();
   HAL_Delay(100);
   /*oled原神启动函数*/
   OLED_NewFrame();
@@ -148,17 +146,31 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  Music_Update();
-
 	  HAL_GPIO_WritePin(Trig_GPIO_Port, Trig_Pin, GPIO_PIN_SET);
 	  HAL_Delay(1);
 	  HAL_GPIO_WritePin(Trig_GPIO_Port, Trig_Pin, GPIO_PIN_RESET);
 	  __HAL_TIM_SET_COUNTER(&htim1, 0);
 	  HAL_Delay(20);
 
+	  if (distance > 20.0f)
+	  {
+		  Buzzer_Off();
+		  Car_Forward();
+	  }
+	  else if (distance > 10.0f)
+	  {
+		  Buzzer_On();
+		  Car_SlowStop();
+	  }
+	  else
+	  {
+		  Buzzer_On();
+		  Car_FastStop();
+	  }
+
 	  {
 		  OLED_NewFrame();
-		  sprintf(message, "距离: %.2fcm", currentDistance);
+		  sprintf(message, "距离: %.2fcm", distance);
 		  OLED_PrintString(0, 0, message, &font16x16, OLED_COLOR_NORMAL);
 		  OLED_ShowFrame();
 	  }

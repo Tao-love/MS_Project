@@ -1,9 +1,0 @@
-../Core/Src/music.c:48:13:Music_StartNote	24	static
-../Core/Src/music.c:57:13:Music_SilenceOutput	8	static
-../Core/Src/music.c:64:13:Music_SetTone	24	static
-../Core/Src/music.c:93:6:Music_Init	16	static
-../Core/Src/music.c:117:9:Music_IsPlaying	4	static
-../Core/Src/music.c:122:6:Music_Stop	8	static
-../Core/Src/music.c:132:6:Music_Update	8	static
-../Core/Src/music.c:154:6:Music_PlaySong	16	static
-../Core/Src/music.c:168:6:Music_PlayJiNiTaiMei	8	static
